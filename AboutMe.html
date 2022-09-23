@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>About me</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.4/dist/vue.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="AboutMe.css">
+
+</head>
+
+<body>
+   <!-- navigation bar -->
+   <header>
+    <nav>
+        <ul class="nav__links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="AboutMe.html">About</a></li>
+            <li><a href="extra.html">Beta</a></li>
+        </ul>
+    </nav>
+    <a class="cta" href="contactform.html">Contact</a>
+</header>
+  <br>
+  <!-- para heading -->
+  <br>
+  <h1 style="color: white;">This website is designed for people like :- </h1>
+    <br>
+    <div id="app" >
+      
+      <!-- usage of slots for content -->
+      <div class="container">
+        <div class="content">
+          <ul>
+              <li v-for="plan in plans" v-on:click="plan.show = !plan.show">
+                <h5>{{plan.name}}</h5>
+                <p id="text" v-show="plan.show">{{plan.speciality}}</p>
+              </li>
+            </ul>
+       </div>
+      </div>
+       <!-- para heading using global registration --> 
+      <div class="componenta">
+        <component-a inline-template>
+            <div>
+                '<h1 style="color:white">{{componentamessage}}</h1>'
+            </div>
+        </component-a>
+      </div>
+      <!-- para context using local registration --> 
+      <div class="container">
+        <div class="componentb">
+          <component-b></component-b>
+      </div>
+      </div class="container">
+  
+    </div>
+
+  <script type="text/x-template" id="plan-template">
+    {{name}}
+  </script>
+
+</body>
+<script>
+// GLOBAL registration
+Vue.component('component-a',{
+        data() {
+            return {
+                componentamessage: "About The creator!"
+            }
+        },
+  })
+ // local registration
+let ComponentB = {
+        data() {
+            return {
+                componentBMessage: "Hi, I'm Gaurav! i am currently studying Bachelor of Information Technology at Deakin University in  Austrlia.   Since my childhood, I was always fascinated with computer professionals, as to how they were communicating with the system with the use of binary numbers and getting desired results. My keen interest areas are Problem Solving, Planning and organizing, and Finding the logic behind how coding language works which inspired me to choose Information Technology as my career aspiration. As it is one of the fastest-growing sectors worldwide and enables us to explore and learn something new every day. "
+            }
+        },
+        template: '<h2>{{componentBMessage}}</h2>'
+    }
+
+  //usage of props for content
+Vue.component('plan', {
+  template: '#plan-template',
+  props: ['plan']
+})
+
+new Vue({
+  el: '#app',
+  data: {
+    plans: [
+          {name: 'People who are fond of food and cooking', speciality: 'These users are fond of cooking and need a wide variety of different cuisines with a recipe guide so that they can replicate those same recipes by themselves in their homes. The website helps these groups of users by providing a wide variety of foods from each and every cuisine with a detailed recipe guide on how to get stated making them. ', show:false},
+          {name: 'Health-conscious people', speciality: 'These users like to measure the nutritional information of every food that they are making so that they can monitor their health in an effective manner.The website helps these groups of users by providing a calorific count below each and every recipe and further nutritional breakdown present inside the recipe guide. ', show:false},
+          {name: 'People who don’t know how to cook ', speciality: 'These users are very new to cooking and need guidance on how to start cooking by themselves in their homes.The website helps these groups of users by providing a video tutorial alongside a detailed recipe guide so that they can watch along and learn how to cook food. ', show:false},
+        ] 
+  },
+  components: {
+            'component-b': ComponentB
+        }// we have registered this component locally
+})
+</script>
+

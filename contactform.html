@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="contactform.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.4/dist/vue.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+     <!-- navigation bar -->
+     <header>
+        <nav>
+            <ul class="nav__links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="AboutMe.html">About</a></li>
+                <li><a href="extra.html">Beta</a></li>
+            </ul>
+        </nav>
+        <a class="cta" href="contactform.html">Contact</a>
+    </header>
+
+    <!-- contact form  -->
+    <div class ='container'>
+        <div id="contact" class="row content">
+            <!-- usage of slots for page heading -->
+            <div class="slots">
+                <component-slots v-on:submit.prevent="processForm" v-if="sent == false"></component-slots>
+            </div> 
+            <br>
+            <form v-on:submit.prevent="processForm" v-if="sent == false">
+                <h3>CONTACT US</h3>
+                <input v-model="name" placeholder="Your Name"  required>
+                <input  v-model="email" placeholder="Email ID"  required>
+                </label><input  v-model="phone" placeholder="Phone Number"  required>
+                <textarea v-model="context" placeholder="How Can We Help You"></textarea>
+                <button type="submit">Send</button>
+            </form>
+            <!-- transition effect after clicking submit button for contact form -->
+                <transition name="fade">
+                    <div class="modal submitted" v-show="sent">
+                        <h3 class="transition">Hello {{name}}! Thanks for getting in touch. we will contact you at {{email}} shortly to respond to your query.</h3>
+                    </div>
+                </transition>
+        </div>
+    </div>  
+</body>
+</html>
+<style>
+    .slots{
+        color: white;
+        font-size: 30px;
+    }
+</style>
+<!-- page heading using slots-->
+<script type="text/x-template" id="template1">
+    <div>
+        <h1 style="color:white, font-size:50px">We'd Love to Hear From You</h1>
+    </div>
+</script>
+
+<script>
+     Vue.component('component-slots',{
+            template: "#template1"
+        })
+// for contact form using form-input binding
+    var contactPage = new Vue({
+        el: '#contact',
+        data: 
+        {
+            name: '',
+            email: '',
+            phone: '',
+            context: '',
+            sent: false,
+        },
+        methods: 
+        {
+            processForm: function() 
+            {
+                this.sent = true;
+            }
+        }
+    })
+
+
+</script>

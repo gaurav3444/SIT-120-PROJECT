@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.4/dist/vue.js"></script>
+  <link rel="stylesheet" href="extra.css">
+
+</head>
+<body>
+   <!-- navigation bar -->
+   <header>
+    <nav>
+        <ul class="nav__links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="AboutMe.html">About</a></li>
+            <li><a href="extra.html">Beta</a></li>
+        </ul>
+    </nav>
+    <a class="cta" href="contactform.html">Contact</a>
+</header>
+<br>
+<br>
+
+<!-- page heading for this page using filters vue concept -->
+<div id="app_1">
+  <h2 style="color:white; text-align: center;">{{message| to-uppercase}}</h2>
+</div>
+
+<!-- clicker game using computed properties -->
+  <div class="container1">
+     <h1 id="title">Clicker game</h1>
+    <div id="vue-app">
+      <button class="button"v-on:click="a++">Click Me</button>
+      <button class="button"v-on:click="a = 0">reset</button>
+      <p id="text1">No. of Clicks = {{a}}</p>
+    </div>
+  </div>
+<br>
+  <!-- vue app to create a to-do list using list rendering-->
+  <div class="container">
+    <h1 id="todolist"> To-do list </h1>
+      <div id="app">
+          <div 
+              id = 'text'
+              v-for="todo in todos" 
+              :keys="todo.title" 
+              :style="{ textDecoration: todo.checked? 'line-through':'none' }"
+          >
+              <input type="checkbox" v-model="todo.checked" />
+              {{ todo.title}}
+          </div> 
+          <input 
+          placeholder="Add Tasks to do"
+          v-model="newItem"
+          @keyup.enter="addItem">
+      </div>
+  </div>
+
+  <div id="dynamicexample">
+    <h3 v-pin:[direction]="730" id="dynamicdirective">🎃</h3>
+  </div>
+
+</body>
+</html>
+<script>
+
+// for clicker game
+  new Vue({
+    el:'#vue-app',
+    data: {
+      a: 0,
+    },
+    methods: {
+    },
+    computed: {
+      addToA: function(){
+        console.log('addToA');
+        return this.a;
+      }
+    },
+  })
+
+// for todo list 
+  let vue = new Vue({
+    el: '#app',
+    data: {
+        todos: [
+            {title: 'complete assignment 1 of unit xxx', checked: false},
+            {title: 'complete tasksheet of unit xxx', checked: true},
+            {title: 'revise lecture', checked: true},
+        ],
+    },
+    methods: {
+        toggle: function(todo){
+            todo.done = !todo.done
+        },
+        addItem: function (newItem){
+            var value = this.newItem && this.newItem.trim()
+            this.todos.push({
+                title: value,
+                done: false})
+            this.newItem = "";
+        }
+    } 
+});
+
+// vue filter function
+Vue.filter('to-uppercase', function(value){
+        return value.toUpperCase()
+  });
+
+    new Vue({
+        el: '#app_1',
+        data: {
+            message: 'Extra stuff'
+        },
+    })
+
+  Vue.directive('pin', {
+    bind: function (el, binding, vnode) {
+      el.style.position = 'fixed'
+      var s = (binding.arg == 'left' ? 'left' : 'top')
+      el.style[s] = binding.value + 'px'
+    }
+  })
+   
+  
+  new Vue({
+    el: '#dynamicexample',
+    data: function () {
+      return {
+        direction: 'left'
+      }
+    }
+  })
+
+</script>
+ 
